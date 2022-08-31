@@ -48,7 +48,8 @@ class _HomeScreenState extends State<HomeScreen> {
                       if (snapshot.connectionState == ConnectionState.waiting) return _loader();
 
                       if (snapshot.hasData && snapshot.data!.isNotEmpty) {
-                        List<dynamic> notes = snapshot.data ?? [];
+                        var retrieveNote = snapshot.data ?? [];
+                        var notes = retrieveNote.reversed.toList();
 
                         return ListView(
                           physics: const NeverScrollableScrollPhysics(),
