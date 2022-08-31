@@ -9,7 +9,7 @@ class HomeViewModel {
   var noteRepository = NoteRepository();
 
   Future<List<Note>> getNotesList() async {
-    await Future.delayed(const Duration(seconds: 2));
+    await Future.delayed(const Duration(milliseconds: 400));
 
     return await noteRepository.listNote();
   }
