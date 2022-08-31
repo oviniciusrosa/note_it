@@ -50,6 +50,7 @@ class CreateNoteScreen extends StatelessWidget {
       ),
       body: SafeArea(
         child: SingleChildScrollView(
+          physics: const BouncingScrollPhysics(),
           child: Padding(
             padding: EdgeInsets.symmetric(horizontal: cDefaultPadding, vertical: _verticalPadding),
             child: Column(
