@@ -1,9 +1,8 @@
-import 'package:note_it/common/models/note_model.dart';
+import 'package:note_it/common/database/connection/app_database.dart' as app_database;
+import 'package:note_it/common/database/dao/notes_dao.dart';
 
 class NoteRepository {
-  Future<bool> createNewNote(Note note) async {
-    await Future.delayed(const Duration(seconds: 2));
+  Future<List<app_database.Note>> listNote() async => await NotesDao(app_database.db).list();
 
-    return true;
-  }
+  Future<void> createNewNote(app_database.Note note) async => await NotesDao(app_database.db).createNew(note);
 }

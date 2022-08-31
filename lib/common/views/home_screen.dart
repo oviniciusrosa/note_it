@@ -4,9 +4,14 @@ import 'package:note_it/common/viewmodel/home_viewmodel.dart';
 import 'package:note_it/common/widgets/action_button.dart';
 import 'package:note_it/common/widgets/note_card.dart';
 
-class HomeScreen extends StatelessWidget {
-  HomeScreen({Key? key}) : super(key: key);
+class HomeScreen extends StatefulWidget {
+  const HomeScreen({Key? key}) : super(key: key);
 
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
   late HomeViewModel _viewModel;
 
   @override
@@ -16,7 +21,9 @@ class HomeScreen extends StatelessWidget {
     return Scaffold(
       floatingActionButton: ActionButton(
         heroTag: "CREATE_NOTE_NAVIGATOR_BUTTON",
-        onPressed: () => _viewModel.navigateToNotesCriation(),
+        onPressed: () {
+          _viewModel.navigateToNotesCriation().then((value) => setState(() {}));
+        },
         type: ActionButtonType.greenAccent,
         icon: Icons.add,
       ),
@@ -34,17 +41,23 @@ class HomeScreen extends StatelessWidget {
                 _subtitle("Minhas notas"),
                 const SizedBox(height: cDefaultPadding * 0.4),
 
-                ListView(
-                  physics: const NeverScrollableScrollPhysics(),
-                  shrinkWrap: true,
-                  children: [
-                    for (var i in List.generate(6, (index) => index))
-                      NoteCard(
-                        title: "Bunda",
-                        description: '$i dale',
-                      )
-                  ],
-                )
+                FutureBuilder<List<dynamic>>(
+                    future: _viewModel.getNotesList(),
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) return _loader();
+
+                      if (snapshot.hasData && snapshot.data!.isNotEmpty) {
+                        List<dynamic> notes = snapshot.data ?? [];
+
+                        return ListView(
+                          physics: const NeverScrollableScrollPhysics(),
+                          shrinkWrap: true,
+                          children: [for (var note in notes) NoteCard(title: note.title, description: note.description)],
+                        );
+                      }
+
+                      return _noDataFound();
+                    })
               ],
             ),
           ),
@@ -64,6 +77,21 @@ class HomeScreen extends StatelessWidget {
     return Text(
       text,
       style: const TextStyle(fontSize: 22, fontWeight: FontWeight.w500),
+    );
+  }
+
+  Widget _loader() {
+    return const Center(heightFactor: 10, child: CircularProgressIndicator());
+  }
+
+  Widget _noDataFound() {
+    return const Center(
+      heightFactor: 10,
+      child: Text(
+        "Você ainda não possui uma nota. Crie uma utilizando o botão no canto da tela!",
+        textAlign: TextAlign.center,
+        style: TextStyle(fontStyle: FontStyle.italic),
+      ),
     );
   }
 }
