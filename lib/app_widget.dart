@@ -15,7 +15,7 @@ class AppWidget extends StatelessWidget {
       darkTheme: darkThemeData(context),
       initialRoute: "/",
       routes: {
-        "/": (context) => HomeScreen(),
+        "/": (context) => const HomeScreen(),
         "/create-note": (context) => CreateNoteScreen(),
       },
     );

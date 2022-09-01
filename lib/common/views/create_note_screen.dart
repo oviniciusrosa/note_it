@@ -33,7 +33,7 @@ class CreateNoteScreen extends StatelessWidget {
             ActionButton(
               heroTag: "GO_BACK_NAVIGATOR_BUTTON",
               icon: Icons.arrow_back,
-              onPressed: () => _viewmodel.navigateBack(),
+              onPressed: () => _viewmodel.handleNavigateBack(enableConfirmButton),
               type: ActionButtonType.blackAccent,
             ),
             ActionButton(
