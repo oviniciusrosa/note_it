@@ -21,6 +21,7 @@ class InspectNoteContent extends StatelessWidget {
     _viewModel = HomeViewModel(context);
 
     return Scaffold(
+      backgroundColor: Colors.transparent,
       body: Container(
         padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 16),
         decoration: BoxDecoration(
