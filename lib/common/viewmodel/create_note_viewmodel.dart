@@ -92,7 +92,7 @@ class CreateNoteViewModel {
           height: 130,
           child: Column(
             children: [
-              const Text("Ao sair, essa nota será descartada. Deseja continuar?"),
+              const Text("Ao sair, essa anotação será descartada. Deseja continuar?"),
               const SizedBox(height: 20),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -114,7 +114,6 @@ class CreateNoteViewModel {
             ],
           ),
         ),
-        // content: const Text("Ao sair, essa nota será descartada. Deseja continuar?"),
       ),
     );
   }

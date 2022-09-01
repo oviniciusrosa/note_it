@@ -39,7 +39,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 const SizedBox(height: cDefaultPadding * 0.4),
                 // SEARCH
 
-                _subtitle("Minhas notas"),
+                _subtitle("Minhas anotações"),
                 const SizedBox(height: cDefaultPadding * 0.4),
 
                 FutureBuilder<List<dynamic>>(
@@ -97,7 +97,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return const Center(
       heightFactor: 10,
       child: Text(
-        "Você ainda não possui uma nota. Crie uma utilizando o botão no canto da tela!",
+        "Você ainda não possui uma anotação. Crie uma utilizando o botão no canto da tela!",
         textAlign: TextAlign.center,
         style: TextStyle(fontStyle: FontStyle.italic),
       ),
