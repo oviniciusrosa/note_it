@@ -2,15 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:note_it/common/constants/theme_constants.dart';
 
 class NoteCard extends StatelessWidget {
-  NoteCard({required this.title, required this.description, Key? key}) : super(key: key);
+  NoteCard({
+    required this.title,
+    required this.description,
+    required this.pressHandler,
+    Key? key,
+  }) : super(key: key);
 
   String title;
   String description;
+  void Function() pressHandler;
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {},
+      onTap: pressHandler,
       child: Container(
         width: double.infinity,
         margin: const EdgeInsets.only(bottom: cDefaultPadding * 0.6),

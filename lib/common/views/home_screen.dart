@@ -54,7 +54,14 @@ class _HomeScreenState extends State<HomeScreen> {
                         return ListView(
                           physics: const NeverScrollableScrollPhysics(),
                           shrinkWrap: true,
-                          children: [for (var note in notes) NoteCard(title: note.title, description: note.description)],
+                          children: [
+                            for (var note in notes)
+                              NoteCard(
+                                title: note.title,
+                                description: note.description,
+                                pressHandler: () => _viewModel.inspectNote(note),
+                              )
+                          ],
                         );
                       }
 

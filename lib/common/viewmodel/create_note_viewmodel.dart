@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:note_it/common/constants/theme_constants.dart';
 import 'package:note_it/common/database/connection/app_database.dart' as db;
 import 'package:note_it/common/models/note_model.dart';
 import 'package:note_it/common/repositories/note_repository.dart';
@@ -26,21 +27,61 @@ class CreateNoteViewModel {
     navigateBack();
   }
 
-  void createNote(Note note) async {
+  void saveNote(Note note) async {
     var loading = LoadingDialog(context);
     loading.show();
 
-    var entity = db.Note(
-      id: _uuid.v4(),
-      title: note.title,
-      description: note.description,
-      datetime: note.datetime,
+    try {
+      if (note.id == null) {
+        var entity = db.Note(
+          id: _uuid.v4(),
+          title: note.title,
+          description: note.description,
+          datetime: note.datetime,
+        );
+
+        await noteRepository.createNewNote(entity);
+        _successMessage("Criado com sucesso!");
+      } else {
+        var entity = db.Note(
+          id: note.id!,
+          title: note.title,
+          description: note.description,
+          datetime: note.datetime,
+        );
+
+        await noteRepository.updateNote(entity);
+        _successMessage("Alterado com sucesso!");
+      }
+
+      loading.close();
+
+      await Future.delayed(const Duration(milliseconds: 500));
+      Navigator.pushReplacementNamed(context, '/');
+    } catch (e) {
+      loading.close();
+      _errorMessage("Ops! Não foi possível salvar a operação...");
+    }
+  }
+
+  void _successMessage(message) {
+    _messageSkeleton(Text(message, style: const TextStyle(color: Colors.green)));
+  }
+
+  void _errorMessage(message) {
+    _messageSkeleton(Text(message, style: const TextStyle(color: Colors.red)));
+  }
+
+  void _messageSkeleton(Widget content) {
+    ScaffoldMessenger.of(context).hideCurrentSnackBar();
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        duration: const Duration(milliseconds: 600),
+        backgroundColor: cSecondaryColor,
+        content: content,
+      ),
     );
-
-    await noteRepository.createNewNote(entity);
-
-    loading.close();
-    navigateBack();
   }
 
   void _askForCloseConfirmation() {

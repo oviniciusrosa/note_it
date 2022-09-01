@@ -13,4 +13,6 @@ class NotesDao extends DatabaseAccessor<AppDatabase> with _$NotesDaoMixin {
   }
 
   Future<void> createNew(Note note) async => await into(notes).insert(note);
+
+  Future<void> updateExistent(Note note) async => await update(notes).replace(note);
 }

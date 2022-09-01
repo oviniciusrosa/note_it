@@ -4,6 +4,7 @@ import 'package:note_it/common/constants/theme_constants.dart';
 import 'package:note_it/common/models/note_model.dart';
 import 'package:note_it/common/viewmodel/create_note_viewmodel.dart';
 import 'package:note_it/common/widgets/action_button.dart';
+import 'package:note_it/common/database/connection/app_database.dart' as app_database;
 
 class CreateNoteScreen extends StatelessWidget {
   CreateNoteScreen({Key? key}) : super(key: key);
@@ -13,7 +14,7 @@ class CreateNoteScreen extends StatelessWidget {
   final double _textContentFontSize = 16;
   final double _verticalPadding = cDefaultPadding * 0.8;
 
-  var currentNote = Note(title: "", description: "", datetime: "");
+  var currentNote = Note(id: null, title: "", description: "", datetime: "");
 
   late CreateNoteViewModel _viewmodel;
 
@@ -22,6 +23,10 @@ class CreateNoteScreen extends StatelessWidget {
     _viewmodel = CreateNoteViewModel(context);
 
     bool enableConfirmButton = currentNote.title.isNotEmpty && currentNote.description.isNotEmpty;
+
+    final incomingNote = ModalRoute.of(context)?.settings.arguments as app_database.Note?;
+    var initialTitle = incomingNote?.title ?? "";
+    var initialDescription = incomingNote?.description ?? "";
 
     return Scaffold(
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
@@ -41,7 +46,8 @@ class CreateNoteScreen extends StatelessWidget {
               heroTag: "CONFIRM_NOTE_BUTTON",
               icon: Icons.check,
               onPressed: () {
-                if (enableConfirmButton) _viewmodel.createNote(currentNote);
+                currentNote.id = incomingNote?.id;
+                if (enableConfirmButton) _viewmodel.saveNote(currentNote);
               },
               type: ActionButtonType.greenAccent,
             )
@@ -56,14 +62,14 @@ class CreateNoteScreen extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                _getTitleTextField(),
+                _getTitleTextField(initialTitle),
                 const SizedBox(height: cDefaultPadding * 0.4),
                 Text(
                   _getCurrentDateTime(),
                   style: const TextStyle(color: cPlaceholderLightTheme, fontSize: 12),
                 ),
                 const SizedBox(height: cDefaultPadding * 0.2),
-                _getContentTextField(context),
+                _getContentTextField(context, initialDescription),
                 const SizedBox(height: cDefaultPadding * 2),
               ],
             ),
@@ -73,8 +79,9 @@ class CreateNoteScreen extends StatelessWidget {
     );
   }
 
-  Widget _getTitleTextField() {
-    return TextField(
+  Widget _getTitleTextField(initialValue) {
+    return TextFormField(
+      initialValue: initialValue,
       onChanged: (value) => currentNote.title = value,
       decoration: const InputDecoration(hintText: 'Escreva o título', border: InputBorder.none),
       autofocus: false,
@@ -84,12 +91,13 @@ class CreateNoteScreen extends StatelessWidget {
     );
   }
 
-  Widget _getContentTextField(BuildContext context) {
+  Widget _getContentTextField(BuildContext context, initialValue) {
     double minLines = (MediaQuery.of(context).size.height / _textContentFontSize) - _verticalPadding * 2;
 
     return Padding(
       padding: const EdgeInsets.only(bottom: 40.0),
-      child: TextField(
+      child: TextFormField(
+        initialValue: initialValue,
         onChanged: (value) => currentNote.description = value,
         decoration: const InputDecoration(
           isDense: true,
