@@ -8,7 +8,9 @@ ThemeData lightThemeData(BuildContext context) {
     scaffoldBackgroundColor: cBackgroundColorLightTheme,
     iconTheme: const IconThemeData(color: cContentColorLightTheme),
     textTheme: GoogleFonts.poppinsTextTheme(Theme.of(context).textTheme).apply(bodyColor: cContentColorLightTheme),
-    inputDecorationTheme: const InputDecorationTheme().copyWith(hintStyle: const TextStyle().copyWith(color: cPlaceholderLightTheme)),
+    inputDecorationTheme: const InputDecorationTheme().copyWith(
+      hintStyle: const TextStyle().copyWith(color: cPlaceholderLightTheme),
+    ),
     colorScheme: const ColorScheme.light(
       primary: cPrimaryColor,
       secondary: cSecondaryColor,
@@ -23,7 +25,9 @@ ThemeData darkThemeData(BuildContext context) {
     scaffoldBackgroundColor: cBackgroundColorDarkTheme,
     iconTheme: const IconThemeData(color: cContentColorDarkTheme),
     textTheme: GoogleFonts.poppinsTextTheme(Theme.of(context).textTheme).apply(bodyColor: cContentColorDarkTheme),
-    inputDecorationTheme: const InputDecorationTheme().copyWith(hintStyle: const TextStyle().copyWith(color: cPlaceholderDarkTheme)),
+    inputDecorationTheme: const InputDecorationTheme().copyWith(
+      hintStyle: const TextStyle().copyWith(color: cPlaceholderDarkTheme.withOpacity(0.8)),
+    ),
     colorScheme: const ColorScheme.dark().copyWith(
       primary: cPrimaryColor,
       secondary: cSecondaryColor,
