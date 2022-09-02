@@ -53,7 +53,7 @@ class HomeViewModel {
       message.success("Deletado com sucesso!");
       await Future.delayed(const Duration(milliseconds: 500));
 
-      Navigator.pushReplacementNamed(context, '/');
+      Navigator.pushReplacementNamed(context, '/home');
     } catch (e) {
       message.error("Ops! Não foi possível deletar o item...");
       Navigator.pop(context);

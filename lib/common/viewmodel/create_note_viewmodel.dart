@@ -50,7 +50,7 @@ class CreateNoteViewModel {
       loading.close();
 
       await Future.delayed(const Duration(milliseconds: 500));
-      Navigator.pushReplacementNamed(context, '/');
+      Navigator.pushReplacementNamed(context, '/home');
     } catch (e) {
       loading.close();
       message.error("Ops! Não foi possível salvar a operação...");
@@ -61,7 +61,7 @@ class CreateNoteViewModel {
     var confirmationDialog = ConfirmationDialog(context);
 
     confirmationDialog.show(
-      onConfirm: () => Navigator.pushReplacementNamed(context, '/'),
+      onConfirm: () => Navigator.pushReplacementNamed(context, '/home'),
       onDeny: () => navigateBack(),
     );
   }

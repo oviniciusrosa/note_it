@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:note_it/common/views/create_note_screen.dart';
 import 'package:note_it/common/views/home_screen.dart';
+import 'package:note_it/common/views/welcome_screen.dart';
 import 'package:note_it/theme.dart';
 
 class AppWidget extends StatelessWidget {
@@ -15,8 +16,9 @@ class AppWidget extends StatelessWidget {
       darkTheme: darkThemeData(context),
       initialRoute: "/",
       routes: {
-        "/": (context) => const HomeScreen(),
-        "/create-note": (context) => CreateNoteScreen(),
+        "/": (context) => WelcomeScreen(),
+        "/home": (context) => const HomeScreen(),
+        "/create-note": (context) => const CreateNoteScreen(),
       },
     );
   }
