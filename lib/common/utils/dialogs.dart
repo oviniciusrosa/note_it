@@ -47,7 +47,7 @@ class ConfirmationDialog {
 
   void close() => Navigator.pop(context);
 
-  void show({onConfirm, onDeny}) {
+  void show({text, onConfirm, onDeny, denyIcon, confirmIcon}) {
     showDialog(
       context: context,
       useRootNavigator: false,
@@ -56,20 +56,20 @@ class ConfirmationDialog {
           height: 130,
           child: Column(
             children: [
-              const Text("Ao sair, essa anotação será descartada. Deseja continuar?"),
+              Text(text),
               const SizedBox(height: 20),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   ActionButton(
                     heroTag: "CANCEL_BUTTON",
-                    icon: Icons.close,
+                    icon: denyIcon ?? Icons.close,
                     onPressed: onDeny,
                     type: ActionButtonType.blackAccent,
                   ),
                   ActionButton(
                     heroTag: "CONFIRM_BUTTON",
-                    icon: Icons.delete,
+                    icon: confirmIcon ?? Icons.delete,
                     onPressed: onConfirm,
                     type: ActionButtonType.redAccent,
                   ),

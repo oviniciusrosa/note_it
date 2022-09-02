@@ -18,20 +18,20 @@ class WelcomeScreen extends StatelessWidget {
         child: Center(
           child: Column(
             children: [
-              const Spacer(flex: 2),
+              const Spacer(flex: 4),
               Lottie.asset(
                 'assets/lottie/welcome_animation.json',
                 width: imageWidth,
               ),
-              const Spacer(),
+              const Spacer(flex: 2),
               _title("Bem-vindo ao Note It!"),
               const SizedBox(height: 10),
               _subtitle("Organize-se, guarde ideias, registre metas e mais no seu aplicativo de anotações"),
-              const SizedBox(height: 15),
+              const SizedBox(height: 20),
               _defaultAccessButton(),
-              const SizedBox(height: 5),
-              _oAuthAccessButton(),
-              const Spacer(flex: 2),
+              // const SizedBox(height: 5),
+              // _oAuthAccessButton(),
+              const Spacer(flex: 4),
               _appInfoText("Developed with ❤️ by Vinicius Rosa"),
               _appInfoText("1.0.0"),
               const Spacer(flex: 1),

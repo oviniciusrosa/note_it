@@ -19,6 +19,17 @@ class HomeViewModel {
 
   Future<void> navigateToNotesCriation() => Navigator.pushNamed(context, "/create-note");
 
+  void handleLogout() {
+    var confirmationDialog = ConfirmationDialog(context);
+
+    confirmationDialog.show(
+      text: "Deseja mesmo sair?",
+      confirmIcon: Icons.logout_rounded,
+      onConfirm: () => Navigator.pushNamedAndRemoveUntil(context, '/', (route) => false),
+      onDeny: () => Navigator.pop(context),
+    );
+  }
+
   void inspectNote(Note note) {
     showModalBottomSheet(
       context: context,
@@ -37,6 +48,7 @@ class HomeViewModel {
     var confirmationDialog = ConfirmationDialog(context);
 
     confirmationDialog.show(
+      text: "Você está prestes a deletar esta anotação. Deseja continuar?",
       onConfirm: () => _handleDeleteNote(note),
       onDeny: () => Navigator.pop(context),
     );

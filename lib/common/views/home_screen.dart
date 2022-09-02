@@ -35,7 +35,19 @@ class _HomeScreenState extends State<HomeScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                _header("Note It"),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    _header("Note It"),
+                    IconButton(
+                        onPressed: () => _viewModel.handleLogout(),
+                        icon: const Icon(
+                          Icons.logout_rounded,
+                          color: cErrorColor,
+                        )),
+                  ],
+                ),
                 const SizedBox(height: cDefaultPadding * 0.4),
                 // SEARCH
 

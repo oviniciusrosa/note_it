@@ -63,6 +63,7 @@ class CreateNoteViewModel {
     var confirmationDialog = ConfirmationDialog(context);
 
     confirmationDialog.show(
+      text: "Ao sair, essa anotação será descartada. Deseja continuar?",
       onConfirm: () => Navigator.pushReplacementNamed(context, '/home'),
       onDeny: () => navigateBack(),
     );
