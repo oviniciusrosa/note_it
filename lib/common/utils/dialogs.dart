@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
+import 'package:note_it/common/constants/theme_constants.dart';
 import 'package:note_it/common/widgets/action_button.dart';
 
 class LoadingDialog {
@@ -14,8 +16,24 @@ class LoadingDialog {
       barrierDismissible: false,
       builder: (context) => WillPopScope(
         onWillPop: () => Future.value(false),
-        child: const AlertDialog(
-          content: Text("Carregando..."),
+        child: AlertDialog(
+          backgroundColor: Colors.transparent,
+          content: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Lottie.asset('assets/lottie/saving_note_animation.json', width: 120),
+                const Text(
+                  'Salvando...',
+                  style: TextStyle(
+                    color: cBackgroundColorLightTheme,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 18,
+                  ),
+                ),
+              ],
+            ),
+          ),
         ),
       ),
     );

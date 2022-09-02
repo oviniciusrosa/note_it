@@ -29,7 +29,9 @@ class CreateNoteViewModel {
   void saveNote(Note note) async {
     var message = Message(context);
     var loading = LoadingDialog(context);
+
     loading.show();
+    await Future.delayed(const Duration(seconds: 2, milliseconds: 500));
 
     var entity = db.Note(
       id: note.id ?? _uuid.v4(),

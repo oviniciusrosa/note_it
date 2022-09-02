@@ -28,8 +28,13 @@ class WelcomeScreen extends StatelessWidget {
               const SizedBox(height: 10),
               _subtitle("Organize-se, guarde ideias, registre metas e mais no seu aplicativo de anotações"),
               const SizedBox(height: 15),
-              _accessButton(),
+              _defaultAccessButton(),
+              const SizedBox(height: 5),
+              _oAuthAccessButton(),
               const Spacer(flex: 2),
+              _appInfoText("Developed with ❤️ by Vinicius Rosa"),
+              _appInfoText("1.0.0"),
+              const Spacer(flex: 1),
             ],
           ),
         ),
@@ -61,7 +66,7 @@ class WelcomeScreen extends StatelessWidget {
     );
   }
 
-  Widget _accessButton() {
+  Widget _defaultAccessButton() {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
       child: InkWell(
@@ -79,6 +84,51 @@ class WelcomeScreen extends StatelessWidget {
               style: TextStyle(fontSize: 18, color: cBackgroundColorLightTheme),
             ),
           ),
+        ),
+      ),
+    );
+  }
+
+  Widget _oAuthAccessButton() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        _buttonSkeleton(
+          onPress: () {},
+          image: Image.asset(
+            'assets/google.png',
+            color: cErrorColor,
+          ),
+        ),
+        const SizedBox(width: 10),
+        _buttonSkeleton(
+          onPress: () {},
+          image: Image.asset('assets/github.png', width: 32.5),
+        ),
+      ],
+    );
+  }
+
+  Widget _buttonSkeleton({onPress, image}) {
+    return InkWell(
+      onTap: () => onPress(),
+      child: SizedBox(
+        height: 40,
+        width: 40,
+        child: Center(
+          child: image,
+        ),
+      ),
+    );
+  }
+
+  Widget _appInfoText(text) {
+    return Center(
+      child: Opacity(
+        opacity: 0.8,
+        child: Text(
+          text,
+          style: const TextStyle(fontSize: 11),
         ),
       ),
     );
