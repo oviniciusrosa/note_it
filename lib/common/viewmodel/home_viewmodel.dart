@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:note_it/common/database/connection/app_database.dart';
 import 'package:note_it/common/repositories/note_repository.dart';
@@ -9,12 +11,19 @@ class HomeViewModel {
   HomeViewModel(this.context);
 
   BuildContext context;
+  final _streamController = StreamController();
+
   var noteRepository = NoteRepository();
 
-  Future<List<Note>> getNotesList() async {
-    await Future.delayed(const Duration(milliseconds: 400));
+  Stream<List<Note>> getNotesList() {
+    var listNoteStream = noteRepository.listNote();
+    _streamController.addStream(listNoteStream);
 
-    return await noteRepository.listNote();
+    return listNoteStream;
+  }
+
+  void dispose() {
+    _streamController.close();
   }
 
   Future<void> navigateToNotesCriation() => Navigator.pushNamed(context, "/create-note");
@@ -65,7 +74,7 @@ class HomeViewModel {
       message.success("Deletado com sucesso!");
       await Future.delayed(const Duration(milliseconds: 500));
 
-      Navigator.pushReplacementNamed(context, '/home');
+      Navigator.pop(context);
     } catch (e) {
       message.error("Ops! Não foi possível deletar o item...");
       Navigator.pop(context);

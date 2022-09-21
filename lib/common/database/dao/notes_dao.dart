@@ -8,7 +8,7 @@ part 'notes_dao.g.dart';
 class NotesDao extends DatabaseAccessor<AppDatabase> with _$NotesDaoMixin {
   NotesDao(AppDatabase db) : super(db);
 
-  Future<List<Note>> list() => select(notes).get();
+  Stream<List<Note>> list() => select(notes).watch();
 
   Future<void> createNew(Note note) async => await into(notes).insert(note);
 

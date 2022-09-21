@@ -15,15 +15,25 @@ class _HomeScreenState extends State<HomeScreen> {
   late HomeViewModel _viewModel;
 
   @override
-  Widget build(BuildContext context) {
-    _viewModel = HomeViewModel(context);
+  void initState() {
+    super.initState();
 
+    _viewModel = HomeViewModel(context);
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+
+    _viewModel.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: ActionButton(
         heroTag: "CREATE_NOTE_NAVIGATOR_BUTTON",
-        onPressed: () {
-          _viewModel.navigateToNotesCriation().then((value) => setState(() {}));
-        },
+        onPressed: () => _viewModel.navigateToNotesCriation(),
         type: ActionButtonType.greenAccent,
         icon: Icons.add,
       ),
@@ -54,8 +64,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 _subtitle("Minhas anotações"),
                 const SizedBox(height: cDefaultPadding * 0.4),
 
-                FutureBuilder<List<dynamic>>(
-                    future: _viewModel.getNotesList(),
+                StreamBuilder<List<dynamic>>(
+                    stream: _viewModel.getNotesList(),
                     builder: (context, snapshot) {
                       if (snapshot.connectionState == ConnectionState.waiting) return _loader();
 
