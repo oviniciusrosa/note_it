@@ -1,29 +1,19 @@
 import 'package:flutter/cupertino.dart';
 import 'package:note_it/common/repositories/auth_repository.dart';
-import 'package:note_it/common/utils/messages.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class WelcomeViewModel {
-  WelcomeViewModel(this.context);
-
   BuildContext context;
   final repository = AuthRepository();
+  late SharedPreferences _prefs;
+
+  WelcomeViewModel(this.context);
 
   void signIn() async {
-    var message = Message(context);
+    _prefs = await SharedPreferences.getInstance();
 
-    try {
-      dynamic response = await repository.defaultLogin();
-      if (response != null) {
-        message.success('Login efetuado com sucesso!');
-        await Future.delayed(const Duration(milliseconds: 600));
+    await _prefs.setBool('alreadySeeWelcomeScreen', true);
 
-        Navigator.pushReplacementNamed(context, '/home');
-        return;
-      }
-
-      message.error('Login inválido!');
-    } catch (e) {
-      message.error('Não foi possível efetuar o login!');
-    }
+    Navigator.pushReplacementNamed(context, '/home');
   }
 }

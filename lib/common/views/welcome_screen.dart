@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:note_it/common/constants/theme_constants.dart';
 import 'package:note_it/common/viewmodel/welcome_viewmodel.dart';
+import 'package:note_it/common/widgets/app_infos.dart';
 
 class WelcomeScreen extends StatelessWidget {
   WelcomeScreen({Key? key}) : super(key: key);
@@ -32,8 +33,7 @@ class WelcomeScreen extends StatelessWidget {
               // const SizedBox(height: 5),
               // _oAuthAccessButton(),
               const Spacer(flex: 4),
-              _appInfoText("Developed with ❤️ by Vinicius Rosa"),
-              _appInfoText("1.0.0"),
+              const AppInfos(),
               const Spacer(flex: 1),
             ],
           ),
@@ -80,7 +80,7 @@ class WelcomeScreen extends StatelessWidget {
           ),
           child: const Center(
             child: Text(
-              "Entrar",
+              "Avançar",
               style: TextStyle(fontSize: 18, color: cBackgroundColorLightTheme),
             ),
           ),
@@ -117,18 +117,6 @@ class WelcomeScreen extends StatelessWidget {
         width: 40,
         child: Center(
           child: image,
-        ),
-      ),
-    );
-  }
-
-  Widget _appInfoText(text) {
-    return Center(
-      child: Opacity(
-        opacity: 0.8,
-        child: Text(
-          text,
-          style: const TextStyle(fontSize: 11),
         ),
       ),
     );
