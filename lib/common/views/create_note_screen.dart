@@ -20,7 +20,10 @@ class _CreateNoteScreenState extends State<CreateNoteScreen> {
   final double _verticalPadding = cDefaultPadding * 0.8;
 
   var titleController = TextEditingController();
+  var titleFocus = FocusNode();
+
   var descriptionController = TextEditingController();
+  var descriptionFocus = FocusNode();
 
   var currentNote = Note(id: null, title: "", description: "", datetime: "");
 
@@ -87,7 +90,11 @@ class _CreateNoteScreenState extends State<CreateNoteScreen> {
               heroTag: "CONFIRM_NOTE_BUTTON",
               icon: Icons.check,
               onPressed: () {
-                if (_shouldEnableButton()) _viewmodel.saveNote(currentNote);
+                if (_shouldEnableButton()) {
+                  titleFocus.unfocus();
+                  descriptionFocus.unfocus();
+                  _viewmodel.saveNote(currentNote);
+                }
               },
               type: ActionButtonType.greenAccent,
             )
@@ -122,6 +129,7 @@ class _CreateNoteScreenState extends State<CreateNoteScreen> {
   Widget _getTitleTextField() {
     return TextField(
       controller: titleController,
+      focusNode: titleFocus,
       decoration: const InputDecoration(hintText: 'Escreva o título', border: InputBorder.none),
       autofocus: false,
       maxLines: 1,
@@ -137,6 +145,7 @@ class _CreateNoteScreenState extends State<CreateNoteScreen> {
       padding: const EdgeInsets.only(bottom: 40.0),
       child: TextField(
         controller: descriptionController,
+        focusNode: descriptionFocus,
         decoration: const InputDecoration(
           isDense: true,
           hintText: 'Escreva o conteúdo aqui...',
