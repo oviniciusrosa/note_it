@@ -17,7 +17,8 @@ class HomeViewModel {
 
   Stream<List<Note>> getNotesList() {
     var listNoteStream = noteRepository.listNote();
-    _streamController.addStream(listNoteStream);
+
+    if (_streamController.isClosed) _streamController.addStream(listNoteStream);
 
     return listNoteStream;
   }

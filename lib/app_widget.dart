@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:note_it/common/views/create_note_screen.dart';
-import 'package:note_it/common/views/home_screen.dart';
-import 'package:note_it/common/views/splash_screen.dart';
-import 'package:note_it/common/views/welcome_screen.dart';
+import 'package:note_it/feature/home/screens/home_screen.dart';
+import 'package:note_it/feature/app_initialization/screens/splash_screen.dart';
+import 'package:note_it/feature/app_initialization/screens/welcome_screen.dart';
 import 'package:note_it/theme.dart';
 
 class AppWidget extends StatelessWidget {

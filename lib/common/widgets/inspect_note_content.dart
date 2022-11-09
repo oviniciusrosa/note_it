@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:note_it/common/database/connection/app_database.dart';
-import 'package:note_it/common/viewmodel/home_viewmodel.dart';
+import 'package:note_it/feature/home/viewmodel/home_viewmodel.dart';
 import 'package:note_it/common/widgets/action_button.dart';
 import 'package:note_it/common/widgets/draggable_sheet_indicator.dart';
 
