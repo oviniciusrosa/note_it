@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:note_it/common/database/connection/app_database.dart';
+import 'package:note_it/common/repositories/note_repository.dart';
+import 'package:note_it/common/utils/dialogs.dart';
+import 'package:note_it/common/utils/messages.dart';
 import 'package:note_it/feature/home/viewmodel/home_viewmodel.dart';
 import 'package:note_it/common/widgets/action_button.dart';
 import 'package:note_it/common/widgets/draggable_sheet_indicator.dart';
@@ -14,11 +17,13 @@ class InspectNoteContent extends StatelessWidget {
   Note note;
   ScrollController controller;
 
-  late HomeViewModel _viewModel;
+  late HomeViewModel _viewmodel;
 
   @override
   Widget build(BuildContext context) {
-    _viewModel = HomeViewModel(context);
+    _viewmodel = HomeViewModel(
+      repository: NoteRepository(),
+    );
 
     return Scaffold(
       backgroundColor: Colors.transparent,
@@ -66,7 +71,7 @@ class InspectNoteContent extends StatelessWidget {
                     children: [
                       ActionButton(
                         heroTag: "DELETE_NOTE_BUTTON",
-                        onPressed: () => _viewModel.askForDeleteConfirmation(note),
+                        onPressed: () => _askForDeleteConfirmation(context, note),
                         type: ActionButtonType.redAccent,
                         icon: Icons.delete,
                       ),
@@ -88,5 +93,34 @@ class InspectNoteContent extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  void _askForDeleteConfirmation(BuildContext context, Note note) {
+    var confirmationDialog = ConfirmationDialog(context);
+
+    confirmationDialog.show(
+      text: "Você está prestes a deletar esta anotação. Deseja continuar?",
+      onConfirm: () => _handleDeleteNote(context, note),
+      onDeny: () => Navigator.pop(context),
+    );
+  }
+
+  void _handleDeleteNote(BuildContext context, Note note) async {
+    var message = Message(context);
+
+    try {
+      _viewmodel.deleteNote(note);
+
+      Navigator.pop(context);
+
+      message.success("Deletado com sucesso!");
+      await Future.delayed(const Duration(milliseconds: 500));
+
+      // ignore: use_build_context_synchronously
+      Navigator.pop(context);
+    } catch (e) {
+      message.error("Ops! Não foi possível deletar o item...");
+      Navigator.pop(context);
+    }
   }
 }

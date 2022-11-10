@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:note_it/common/constants/theme_constants.dart';
+import 'package:note_it/common/database/connection/app_database.dart';
+import 'package:note_it/common/repositories/note_repository.dart';
+import 'package:note_it/common/widgets/inspect_note_content.dart';
 import 'package:note_it/common/widgets/loaders/common_loader.dart';
 import 'package:note_it/common/widgets/no_data_indicator.dart';
 import 'package:note_it/common/widgets/typography/heading.dart';
@@ -21,7 +24,9 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
 
-    _viewmodel = HomeViewModel(context);
+    _viewmodel = HomeViewModel(
+      repository: NoteRepository(),
+    );
   }
 
   @override
@@ -36,7 +41,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       floatingActionButton: ActionButton(
         heroTag: "CREATE_NOTE_NAVIGATOR_BUTTON",
-        onPressed: () => _viewmodel.navigateToNotesCriation(),
+        onPressed: () => navigateToNotesCriation(),
         type: ActionButtonType.greenAccent,
         icon: Icons.add,
       ),
@@ -71,7 +76,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 NoteCard(
                                   title: note.title,
                                   description: note.description,
-                                  pressHandler: () => _viewmodel.inspectNote(note),
+                                  pressHandler: () => inspectNote(note),
                                 )
                             ],
                           );
@@ -84,6 +89,22 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ]),
         ),
+      ),
+    );
+  }
+
+  Future<void> navigateToNotesCriation() => Navigator.pushNamed(context, "/create-note");
+
+  void inspectNote(Note note) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (_) => DraggableScrollableSheet(
+        initialChildSize: 0.5,
+        minChildSize: 0.4,
+        maxChildSize: 0.925,
+        builder: (_, controller) => InspectNoteContent(note: note, controller: controller),
       ),
     );
   }
