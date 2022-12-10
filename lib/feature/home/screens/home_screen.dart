@@ -47,53 +47,57 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: cDefaultPadding, vertical: cDefaultPadding * 0.8),
-          child: CustomScrollView(slivers: [
-            SliverFillRemaining(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Heading("Minhas anotações"),
-                  const SizedBox(height: cDefaultPadding),
-                  // TODO: SEARCH
+          padding: const EdgeInsets.symmetric(
+              horizontal: cDefaultPadding, vertical: cDefaultPadding * 0.8),
+          child: SingleChildScrollView(
+            physics: const BouncingScrollPhysics(),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Heading("Minhas anotações"),
+                const SizedBox(height: cDefaultPadding),
+                // TODO: SEARCH
+                StreamBuilder<List<dynamic>>(
+                  stream: _viewmodel.getNotesList(),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return const CommonLoader();
+                    }
 
-                  StreamBuilder<List<dynamic>>(
-                      stream: _viewmodel.getNotesList(),
-                      builder: (context, snapshot) {
-                        if (snapshot.connectionState == ConnectionState.waiting) {
-                          return const CommonLoader();
-                        }
+                    if (snapshot.hasData && snapshot.data!.isNotEmpty) {
+                      var retrieveNote = snapshot.data ?? [];
+                      var notes = retrieveNote.reversed.toList();
 
-                        if (snapshot.hasData && snapshot.data!.isNotEmpty) {
-                          var retrieveNote = snapshot.data ?? [];
-                          var notes = retrieveNote.reversed.toList();
+                      return ListView(
+                        physics: const NeverScrollableScrollPhysics(),
+                        shrinkWrap: true,
+                        children: [
+                          for (var note in notes)
+                            NoteCard(
+                              title: note.title,
+                              description: note.description,
+                              pressHandler: () => inspectNote(note),
+                            )
+                        ],
+                      );
+                    }
 
-                          return ListView(
-                            physics: const NeverScrollableScrollPhysics(),
-                            shrinkWrap: true,
-                            children: [
-                              for (var note in notes)
-                                NoteCard(
-                                  title: note.title,
-                                  description: note.description,
-                                  pressHandler: () => inspectNote(note),
-                                )
-                            ],
-                          );
-                        }
-
-                        return const NoDataIndicator();
-                      }),
-                ],
-              ),
+                    return SizedBox(
+                      height: MediaQuery.of(context).size.height - 146,
+                      child: const NoDataIndicator(),
+                    );
+                  },
+                ),
+              ],
             ),
-          ]),
+          ),
         ),
       ),
     );
   }
 
-  Future<void> navigateToNotesCriation() => Navigator.pushNamed(context, "/create-note");
+  Future<void> navigateToNotesCriation() =>
+      Navigator.pushNamed(context, "/create-note");
 
   void inspectNote(Note note) {
     showModalBottomSheet(
@@ -104,7 +108,8 @@ class _HomeScreenState extends State<HomeScreen> {
         initialChildSize: 0.5,
         minChildSize: 0.4,
         maxChildSize: 0.925,
-        builder: (_, controller) => InspectNoteContent(note: note, controller: controller),
+        builder: (_, controller) =>
+            InspectNoteContent(note: note, controller: controller),
       ),
     );
   }

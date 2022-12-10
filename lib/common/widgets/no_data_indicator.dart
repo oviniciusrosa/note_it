@@ -5,13 +5,11 @@ class NoDataIndicator extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Expanded(
-      child: Center(
-        child: Text(
-          "Você ainda não possui uma anotação. Crie uma utilizando o botão no canto da tela!",
-          textAlign: TextAlign.center,
-          style: TextStyle(fontStyle: FontStyle.italic),
-        ),
+    return Center(
+      child: Text(
+        "Você ainda não possui uma anotação. Crie uma utilizando o botão no canto da tela!",
+        textAlign: TextAlign.center,
+        style: TextStyle(fontStyle: FontStyle.italic),
       ),
     );
   }

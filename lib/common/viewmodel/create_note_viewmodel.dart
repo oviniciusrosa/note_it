@@ -31,7 +31,7 @@ class CreateNoteViewModel {
     var loading = LoadingDialog(context);
 
     loading.show();
-    await Future.delayed(const Duration(seconds: 2, milliseconds: 500));
+    await Future.delayed(const Duration(seconds: 1));
 
     var entity = db.Note(
       id: note.id ?? _uuid.v4(),
