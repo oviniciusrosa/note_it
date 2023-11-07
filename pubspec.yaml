@@ -30,7 +30,7 @@ dependencies:
   flutter:
     sdk: flutter
 
-  google_fonts: ^3.0.1
+  google_fonts: ^4.0.1
 
   intl: ^0.17.0
 
